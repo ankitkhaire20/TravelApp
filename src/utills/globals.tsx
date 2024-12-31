@@ -4,7 +4,7 @@ export const Color = {
 
 export const Font = {
 
-    LATO_BOLD: 'Laato-Bold',
+    LATO_BOLD: 'Lato-Bold',
     LATO_REGULAR: 'Lato-Regular',
     POPPINS_BOLD: 'Poppins-Bold',
     POPPINS_REGULAR: 'Poppins-Regular',

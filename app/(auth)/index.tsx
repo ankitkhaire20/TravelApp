@@ -1,112 +1,150 @@
-import React, { useState } from "react";
-import { FlatList, Text, View, Image, StyleSheet, Dimensions } from "react-native";
-import Animated, { Easing, SlideInLeft } from "react-native-reanimated";
+import React, { useRef, useState } from "react";
+import { FlatList, Text, View, SafeAreaView, Dimensions, StatusBar, TouchableOpacity } from "react-native";
+import Animated, { Easing, SlideInLeft, useSharedValue } from "react-native-reanimated";
+import Intro1 from '../../assets/images/Intro1.svg';
+import Intro2 from '../../assets/images/Intro2.svg';
+import Intro3 from '../../assets/images/Intro3.svg';
 import CustomButton from "../components/CustomButton";
+import { Color } from "@/src/utills/globals";
+import { useRouter } from "expo-router";
+import useOnBoardingStore from "../state/OnBoarding";
+
+const data = [
+    {
+        id: "1",
+        text: "Life is Short and the world is wide.",
+        text1:
+            "At Friends tours and travel, we customize reliable and trustworthy educational tours to destinations all over the world",
+    },
+    {
+        id: "2",
+        text: "It’s a big world out there go explore.",
+        text1:
+            "To get the best of your adventure you just need to leave and go where you like. we are waiting for you.",
+    },
+    {
+        id: "3",
+        text: "People don’t take trips, trips take people.",
+        text1:
+            "To get the best of your adventure you just need to leave and go where you like. we are waiting for you.",
+    },
+];
+
 
 const IntroScreen: React.FC = () => {
-    const [currentIndex, setCurrentIndex] = useState(0); // State to track the current index
 
-    // Sample array of objects with local image files
-    const data = [
-        {
-            id: "1",
-            image: require("../../assets/images/IntroData.png"),
-            text: "Life is Short and the world is wide.",
-            text1:
-                "At Friends tours and travel, we customize reliable and trustworthy educational tours to destinations all over the world",
-        },
-        {
-            id: "2",
-            image: require("../../assets/images/IntroData2.png"),
-            text: "It’s a big world out there go explore.",
-            text1:
-                "To get the best of your adventure you just need to leave and go where you like. we are waiting for you.",
-        },
-        {
-            id: "3",
-            image: require("../../assets/images/IntroData3.png"),
-            text: "People don’t take trips, trips take people.",
-            text1:
-                "To get the best of your adventure you just need to leave and go where you like. we are waiting for you.",
-        },
-    ];
+    const flatListRef = useRef<FlatList>(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const width = Dimensions.get('window').width;
+
+    const router = useRouter();
+    const { isOnBoarding, setOnBoarding } = useOnBoardingStore();
+
+    const traslateX = useSharedValue(0);
+
+
 
     const handleScroll = (event: any) => {
-        const offsetX = event.nativeEvent.contentOffset.x; // Current scroll position
-        const screenWidth = Dimensions.get("window").width; // Width of the screen
-        const index = Math.round(offsetX / screenWidth); // Calculate the current index
-        setCurrentIndex(index);
-    };
+        const offsetX = event.nativeEvent.contentOffset.x;
+        const newIndex = Math.round(offsetX / width);
+        setCurrentIndex(newIndex)
+    }
 
-    const renderItem = ({ item }) => {
+
+    const renderIndicators = () => {
         return (
-            <Animated.View>
-                <Animated.Image
+            <View className="flex-row" >
+                {data.map((_, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                            setCurrentIndex(index);
+                            if (flatListRef.current) {
+                                flatListRef.current.scrollToIndex({
+                                    index: Math.min(index, data.length - 1),
+                                    animated: true
+                                })
+                            }
+                        }}
+                        activeOpacity={0.7}
+                    >
+                        <View
+                            style={{
+                                width: currentIndex === index ? 35 : 15, // Make the active dot longer
+                                height: 8,
+                                borderRadius: 10,
+                                marginHorizontal: 5,
+                                backgroundColor: currentIndex === index ? Color.PRMARY_COLOR : "#ccc", // Active and inactive color
+                            }}
+                        />
+                    </TouchableOpacity>
+                ))}
+            </View>
+        )
+    }
+
+    const renderItem = ({ item, index }: { item: any; index: number }) => {
+        return (
+            <View className='w-screen items-center my-5' >
+                {index === 0 && <Intro1 />}
+                {index === 1 && <Intro2 />}
+                {index === 2 && <Intro3 />}
+                <Animated.View
                     layout={SlideInLeft.duration(1000).easing(Easing.bounce)}
-                    className="rounded-[24px]"
-                    source={item.image}
-                    style={[styles.container]}
-                />
-                <View className="mt-[40px]" style={styles.textView}>
-                    <Text className="text-[30px] text-center font-['Lato-Bold']">
+                    className="items-center mt-[40px] mx-[33px]" >
+                    <Text className="font-[Lato-Bold] text-center text-[30px]">
                         {item.text}
                     </Text>
-                </View>
-                <View className="mt-[20px]" style={styles.textView}>
-                    <Text className="text-[16px] color-[#7D848D] text-center font-['Lato-Bold']">
+                    <Text className="text-[#7D848D] font--[Poppins-Bold]
+                     my-[20px] text-center text-[16px]">
                         {item.text1}
                     </Text>
-                </View>
-            </Animated.View>
+                </Animated.View>
+                {renderIndicators()}
+            </View >
         );
     };
 
+    const handleNext = () => {
+        if (currentIndex < data.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+            if (flatListRef.current) {
+                flatListRef.current.scrollToIndex({
+                    index: Math.min(currentIndex + 1, data.length - 1),
+                    animated: true,
+                });
+            }
+        } else {
+            setOnBoarding(true);
+        }
+    };
+
+
+
     return (
-        <View className="flex-1">
-            <Animated.FlatList
+        <SafeAreaView className="flex-1 bg-white" >
+            <FlatList
+                renderItem={renderItem}
+                ref={flatListRef}
                 data={data}
-                decelerationRate="fast"
+                keyExtractor={(item) => item.id}
                 horizontal
                 pagingEnabled
+                decelerationRate={'fast'}
+                scrollEventThrottle={16}
                 showsHorizontalScrollIndicator={false}
-                snapToInterval={Dimensions.get("window").width}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={renderItem}
-                onScroll={handleScroll} // Track scroll
-                scrollEventThrottle={16} // Optimize performance
+                onScroll={handleScroll}
             />
-            <View
-                className="bottom-14"
-                style={{
-                    width: Dimensions.get("window").width,
-                    paddingLeft: 33,
-                    paddingRight: 33,
-                }}
-            >
+            <View className="mx-[20] bottom-5" >
                 <CustomButton
-                    title={
-                        currentIndex === 0 ? 'Get Started' :
-                            currentIndex === 1 ? 'Next'
-                                : 'Done'
-                    }
-                    onPress={() => {
-
-                    }}
+                    onPress={handleNext}
+                    title={currentIndex === 0 ? "Let's Go!" : currentIndex === 1 ?
+                        'Next' : "Done"}
                 />
             </View>
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {
-        width: Dimensions.get("window").width,
-    },
-    textView: {
-        width: Dimensions.get("window").width,
-        paddingLeft: 33,
-        paddingRight: 33,
-    },
-});
+        </SafeAreaView>
+    )
+}
 
 export default IntroScreen;

@@ -4,8 +4,8 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
 import '../global.css';
+
 
 
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -23,6 +23,7 @@ export default function RootLayout() {
     [Font.POPPINS_BOLD]: require('../assets/fonts/Poppins-Bold.ttf'),
     [Font.POPPINS_REGULAR]: require('../assets/fonts/Poppins-Regular.ttf'),
     [Font.SPACEMONO_REGULAR]: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    IcoMoon: require('../assets/Icomoon/icomoon.ttf'),
   });
 
   useEffect(() => {

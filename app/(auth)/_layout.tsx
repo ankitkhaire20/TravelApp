@@ -37,6 +37,8 @@ export default function AuthLayout() {
             }}>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="LoginScreen" options={{ headerShown: false }} />
+            <Stack.Screen name="ForgotPasswordScreen" options={{ headerShown: false }} />
+            <Stack.Screen name="SignUpScreen" options={{ headerShown: false }} />
         </Stack>
     );
 }

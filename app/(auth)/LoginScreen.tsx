@@ -12,6 +12,7 @@ import Animated, {
     SlideInLeft,
     SlideInRight,
 } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 const Touchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const LoginScreen: React.FC = () => {
@@ -25,6 +26,8 @@ const LoginScreen: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const passwordRef = useRef<any>(null);
     const screenWidthMinus20 = Dimensions.get('window').width;
+
+    const router = useRouter();
 
     const handleLogin = (data: any) => {
         console.log("Form Data:", data);
@@ -41,7 +44,7 @@ const LoginScreen: React.FC = () => {
     return (
         <View className="flex-1">
             {/* Background Layers */}
-            <View className="absolute inset-0 ">
+            <View className="absolute inset-0 flex-row">
                 <Animated.View
                     className="flex-1 bg-white"
                     entering={BounceInLeft.duration(1000).duration(200)}
@@ -63,7 +66,6 @@ const LoginScreen: React.FC = () => {
             >
                 <Animated.View
                     className={`bg-white rounded-lg p-4 shadow-lg w-[90%]`}
-                    entering={BounceInDown.duration(1400).delay(600)}
                 >
                     <Animated.Text
                         className={'text-[32px] my-4 text-center font-[Lato-Bold]'}
@@ -103,7 +105,8 @@ const LoginScreen: React.FC = () => {
                                     onPressLeftIcon={function (): void {
                                         throw new Error("Function not implemented.");
                                     }}
-                                    textInputStyle={undefined} mainContainerStyle={""} />
+                                    textInputStyle={undefined}
+                                    mainContainerStyle={""} inputView={""} />
                             )}
                             name="email"
                         />
@@ -141,9 +144,8 @@ const LoginScreen: React.FC = () => {
                                     errorMessage={errors.password?.message}
                                     mainClassName={""}
                                     onPressLeftIcon={function (): void {
-
                                     }}
-                                    textInputStyle={undefined} mainContainerStyle={""} />
+                                    textInputStyle={undefined} mainContainerStyle={""} inputView={""} />
                             )}
                             name="password"
                         />
@@ -152,7 +154,7 @@ const LoginScreen: React.FC = () => {
                     {/* Forgot Password */}
                     <Touchable
                         entering={BounceInLeft.duration(2200).delay(1400)}
-                        onPress={() => console.log("Forgot Password Pressed")}
+                        onPress={() => router.replace('/ForgotPasswordScreen')}
                         className={'items-end bottom-6'}
                     >
                         <Text style={{ color: "blue", fontSize: 14, fontWeight: "bold" }}>
@@ -175,13 +177,28 @@ const LoginScreen: React.FC = () => {
                     </View>
 
                     {/* Google Sign-In Button */}
-                    <Animated.View entering={BounceInRight.duration(2600).delay(1800)}>
+                    <Animated.View entering={BounceInLeft.duration(2600).delay(1800)}>
                         <CustomButton
                             title="Sign in with Google"
                             onPress={handleGoogleLogin}
                             disabled={false}
                             textinPutStyle="text-[#000000]"
                         />
+                    </Animated.View>
+
+                    {/* Sign Up Option */}
+                    <Animated.View
+                        entering={BounceInRight.duration(2800).delay(2000)}
+                        className="items-center mt-6"
+                    >
+                        <Touchable
+                            onPress={() => router.replace('./SignUpScreen')}
+                        >
+                            <Text style={{ fontSize: 16, }}>
+                                Don't have an account?
+                                <Text className="text-blue-700 font-[Lato-Bold]">  Sign Up</Text>
+                            </Text>
+                        </Touchable>
                     </Animated.View>
                 </Animated.View>
             </KeyboardAwareScrollView>

@@ -23,6 +23,7 @@ interface TextFieldProps {
     returnKeyType?: ReturnKeyTypeOptions;
     placeholder: string;
     placeholderTextColor: string // Optional callback for when submit editing happens
+    inputView: string
 }
 
 const TextField = React.forwardRef<TextInput, TextFieldProps>((props, ref) => {
@@ -30,7 +31,7 @@ const TextField = React.forwardRef<TextInput, TextFieldProps>((props, ref) => {
 
     const { label, leftIcon, rightIcon,
         onPressLeftIcon, editable,
-        mainContainerStyle,
+        mainContainerStyle, inputView,
         onPressRightIcon, returnKeyType,
         textInputStyle, errorMessage, placeholder,
         onChangeText, onSubmitEditing, value,
@@ -56,7 +57,7 @@ const TextField = React.forwardRef<TextInput, TextFieldProps>((props, ref) => {
                     {label}:
                 </Text>}
             </View>
-            <View className="flex-row items-center border-[1px] px-2 rounded-[12px]">
+            <View className={`flex-row items-center border-[1px] px-2 rounded-[12px]  ${inputView} `}>
                 {leftIcon &&
                     <TouchableOpacity onPress={onPressLeftIcon}>
                         <Icon name={leftIcon} size={22} />

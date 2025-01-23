@@ -9,6 +9,8 @@ import { Color } from "@/src/utills/globals";
 import { useRouter } from "expo-router";
 import useOnBoardingStore from "../state/OnBoarding";
 
+
+
 const data = [
     {
         id: "1",
@@ -32,6 +34,10 @@ const data = [
 
 
 const IntroScreen: React.FC = () => {
+
+
+
+
 
     const flatListRef = useRef<FlatList>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -91,7 +97,6 @@ const IntroScreen: React.FC = () => {
                 {index === 1 && <Intro2 />}
                 {index === 2 && <Intro3 />}
                 <Animated.View
-                    layout={SlideInLeft.duration(1000).easing(Easing.bounce)}
                     className="items-center mt-[40px] mx-[33px]" >
                     <Text className="font-[Lato-Bold] text-center text-[30px]">
                         {item.text}
@@ -141,7 +146,7 @@ const IntroScreen: React.FC = () => {
                     onPress={handleNext}
                     title={currentIndex === 0 ? "Let's Go!" : currentIndex === 1 ?
                         'Next' : "Done"}
-                />
+                    disabled={false} />
             </View>
         </SafeAreaView>
     )

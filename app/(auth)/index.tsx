@@ -124,9 +124,10 @@ const IntroScreen: React.FC = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
+            <StatusBar barStyle="dark-content" backgroundColor="white" translucent />
             <ScrollView
                 nestedScrollEnabled={true}
-                contentContainerStyle={{ paddingBottom: 20 }}
+                contentContainerStyle={{ paddingBottom: 20, }}
             >
                 <FlatList
                     ref={flatListRef}

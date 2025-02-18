@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color for the splash screen -->
+    <item android:drawable="@color/splashscreen_background"/>
+    
+    <!-- Centered image with fixed size -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash_logo"
+            android:width="100dp" 
+            android:height="100dp" />
+    </item>
+</layer-list>

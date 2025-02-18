@@ -48,15 +48,14 @@ const LoginScreen: React.FC = () => {
     return (
         <View className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-            {/* Background Layers */}
             <View className="absolute inset-0 flex-row">
                 <Animated.View
                     className="flex-1 bg-white"
-                    entering={BounceInLeft.duration(1000).duration(200)}
+                    entering={BounceInLeft.duration(3000).duration(200)}
                 />
                 <Animated.View
                     className="flex-1 bg-blue-800"
-                    entering={BounceInRight.duration(1200).delay(400)}
+                    entering={BounceInRight.duration(3200).delay(400)}
                 />
             </View>
 
@@ -73,12 +72,12 @@ const LoginScreen: React.FC = () => {
                 >
                     <Animated.Text
                         className={'text-[32px] my-4 text-center font-[Lato-Bold]'}
-                        entering={BounceInDown.duration(1600).delay(800)}
+                        entering={BounceInDown.duration(3400).delay(800)}
                     >
                         Login
                     </Animated.Text>
                     <Animated.View
-                        entering={BounceInLeft.duration(1800).delay(1000)}
+                        entering={BounceInLeft.duration(3600).delay(1000)}
                     >
                         <Controller
                             control={control}
@@ -122,7 +121,7 @@ const LoginScreen: React.FC = () => {
                     {/* Password Field */}
                     <Animated.View
                         className={'mb-4'}
-                        entering={BounceInRight.duration(2000).delay(1200)}
+                        entering={BounceInRight.duration(3800).delay(1200)}
                     >
                         <Controller
                             control={control}
@@ -162,7 +161,7 @@ const LoginScreen: React.FC = () => {
 
                     {/* Forgot Password */}
                     <Touchable
-                        entering={BounceInLeft.duration(2200).delay(1400)}
+                        entering={BounceInLeft.duration(4000).delay(1400)}
                         onPress={() => router.replace('/ForgotPasswordScreen')}
                         className={'items-end bottom-6'}
                     >
@@ -172,7 +171,7 @@ const LoginScreen: React.FC = () => {
                     </Touchable>
 
                     {/* Login Button */}
-                    <Animated.View entering={BounceInRight.duration(2400).delay(1600)}>
+                    <Animated.View entering={BounceInRight.duration(4200).delay(1600)}>
                         <CustomButton
                             title="Login"
                             disabled={!isValid}
@@ -182,7 +181,7 @@ const LoginScreen: React.FC = () => {
                     <View className="items-center my-4">
                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>or</Text>
                     </View>
-                    <Animated.View entering={BounceInLeft.duration(2600).delay(1800)}>
+                    <Animated.View entering={BounceInLeft.duration(4400).delay(1800)}>
                         <CustomButton
                             title="Sign in with Google"
                             onPress={handleGoogleLogin}
@@ -191,7 +190,7 @@ const LoginScreen: React.FC = () => {
                         />
                     </Animated.View>
                     <Animated.View
-                        entering={BounceInRight.duration(2800).delay(2000)}
+                        entering={BounceInRight.duration(4600).delay(2000)}
                         className="items-center mt-6"
                     >
                         <Touchable

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm, Controller } from "react-hook-form";
 import { REGEX } from "@/src/utills/globals";
@@ -13,24 +13,28 @@ import Animated, {
     SlideInRight,
 } from "react-native-reanimated";
 import { useRouter } from "expo-router";
+import useAuthStore from "../state/auth";
 const Touchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const LoginScreen: React.FC = () => {
     const {
         control,
         handleSubmit,
+        trigger,
         setValue,
         formState: { errors, isValid },
     } = useForm({ mode: "all", shouldUnregister: false });
 
     const [showPassword, setShowPassword] = useState(false);
     const passwordRef = useRef<any>(null);
-    const screenWidthMinus20 = Dimensions.get('window').width;
+    const { setAuthDetails } = useAuthStore()
 
     const router = useRouter();
 
     const handleLogin = (data: any) => {
         console.log("Form Data:", data);
+        router.push('/OtpScreen')
+        setAuthDetails(data);
     };
 
     const handleGoogleLogin = async () => {
@@ -43,6 +47,7 @@ const LoginScreen: React.FC = () => {
 
     return (
         <View className="flex-1">
+            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
             {/* Background Layers */}
             <View className="absolute inset-0 flex-row">
                 <Animated.View
@@ -55,7 +60,6 @@ const LoginScreen: React.FC = () => {
                 />
             </View>
 
-            {/* Login Container */}
             <KeyboardAwareScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
@@ -93,8 +97,12 @@ const LoginScreen: React.FC = () => {
                                     label="Email"
                                     value={value}
                                     rightIcon="close"
+                                    leftIcon="mail"
                                     onChangeText={onChange}
-                                    onPressRightIcon={() => setValue("email", "")}
+                                    onPressRightIcon={() => {
+                                        setValue("email", "")
+                                        trigger("email")
+                                    }}
                                     placeholder="Enter your email"
                                     placeholderTextColor="#9E9E9E"
                                     editable={true}
@@ -140,6 +148,7 @@ const LoginScreen: React.FC = () => {
                                     placeholder="Enter your password"
                                     placeholderTextColor="#9E9E9E"
                                     editable={true}
+                                    leftIcon="lock"
                                     returnKeyType="done"
                                     errorMessage={errors.password?.message}
                                     mainClassName={""}
@@ -170,13 +179,9 @@ const LoginScreen: React.FC = () => {
                             onPress={handleSubmit(handleLogin)}
                             textinPutStyle={""} />
                     </Animated.View>
-
-                    {/* Separator */}
                     <View className="items-center my-4">
                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>or</Text>
                     </View>
-
-                    {/* Google Sign-In Button */}
                     <Animated.View entering={BounceInLeft.duration(2600).delay(1800)}>
                         <CustomButton
                             title="Sign in with Google"
@@ -185,8 +190,6 @@ const LoginScreen: React.FC = () => {
                             textinPutStyle="text-[#000000]"
                         />
                     </Animated.View>
-
-                    {/* Sign Up Option */}
                     <Animated.View
                         entering={BounceInRight.duration(2800).delay(2000)}
                         className="items-center mt-6"

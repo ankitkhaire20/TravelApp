@@ -4,6 +4,35 @@
         {
             "icon": {
                 "paths": [
+                    "M256 938.667q-35.2 0-60.267-25.067t-25.067-60.267v-426.667q0-35.2 25.067-60.267t60.267-25.067h42.667v-85.333q0-88.533 62.4-150.933t150.933-62.4 150.933 62.4 62.4 150.933v85.333h42.667q35.2 0 60.267 25.067t25.067 60.267v426.667q0 35.2-25.067 60.267t-60.267 25.067h-512zM256 853.333h512v-426.667h-512v426.667zM512 725.333q35.2 0 60.267-25.067t25.067-60.267-25.067-60.267-60.267-25.067-60.267 25.067-25.067 60.267 25.067 60.267 60.267 25.067zM384 341.333h256v-85.333q0-53.333-37.333-90.667t-90.667-37.333-90.667 37.333-37.333 90.667v85.333zM256 853.333v0z"
+                ],
+                "attrs": [
+                    {}
+                ],
+                "isMulticolor": false,
+                "isMulticolor2": false,
+                "grid": 0,
+                "tags": [
+                    "lock_24dp_000000_FILL0_wght400_GRAD0_opsz24"
+                ]
+            },
+            "attrs": [
+                {}
+            ],
+            "properties": {
+                "order": 38,
+                "id": 24,
+                "name": "lock",
+                "prevSize": 32,
+                "code": 59651
+            },
+            "setIdx": 0,
+            "setId": 0,
+            "iconIdx": 0
+        },
+        {
+            "icon": {
+                "paths": [
                     "M213.333 896v-682.667q0-35.2 25.067-60.267t60.267-25.067h426.667q35.2 0 60.267 25.067t25.067 60.267v682.667l-298.667-128-298.667 128zM298.667 765.867l213.333-91.733 213.333 91.733v-552.533h-426.667v552.533zM298.667 213.333v0z"
                 ],
                 "attrs": [
@@ -28,7 +57,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 0
+            "iconIdx": 1
         },
         {
             "icon": {
@@ -57,7 +86,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 1
+            "iconIdx": 2
         },
         {
             "icon": {
@@ -260,7 +289,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 12
+            "iconIdx": 9
         },
         {
             "icon": {
@@ -289,7 +318,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 13
+            "iconIdx": 10
         },
         {
             "icon": {
@@ -318,7 +347,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 14
+            "iconIdx": 11
         },
         {
             "icon": {
@@ -347,7 +376,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 15
+            "iconIdx": 12
         },
         {
             "icon": {
@@ -376,7 +405,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 16
+            "iconIdx": 13
         },
         {
             "icon": {
@@ -405,7 +434,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 17
+            "iconIdx": 14
         },
         {
             "icon": {
@@ -434,7 +463,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 18
+            "iconIdx": 15
         },
         {
             "icon": {
@@ -463,7 +492,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 19
+            "iconIdx": 16
         },
         {
             "icon": {
@@ -492,7 +521,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 20
+            "iconIdx": 17
         },
         {
             "icon": {
@@ -521,7 +550,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 21
+            "iconIdx": 18
         },
         {
             "icon": {
@@ -550,7 +579,7 @@
             },
             "setIdx": 0,
             "setId": 0,
-            "iconIdx": 22
+            "iconIdx": 19
         }
     ],
     "height": 1024,
@@ -580,7 +609,8 @@
             "useClassSelector": true,
             "color": 0,
             "bgColor": 16777215,
-            "classSelector": ".icon"
+            "classSelector": ".icon",
+            "name": "icomoon"
         },
         "historySize": 50,
         "showCodes": true,

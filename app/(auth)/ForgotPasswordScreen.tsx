@@ -1,24 +1,14 @@
 import React from "react";
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import Icon from "../confing";
+import { Dimensions, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import Animated, {
-    SlideInLeft,
-    SlideInRight,
-    SlideInUp,
-    FadeIn,
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-    withSequence,
-    RotateInDownLeft,
-    RotateInUpLeft,
-    RotateInUpRight,
-    BounceInLeft
+    BounceInLeft,
+    BounceInRight
 } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Font, REGEX } from "@/src/utills/globals";
 import TextField from "../components/TextField";
-import { REGEX } from "@/src/utills/globals";
 import CustomButton from "../components/CustomButton";
 
 const ForgotPasswordScreen: React.FC = () => {
@@ -27,126 +17,161 @@ const ForgotPasswordScreen: React.FC = () => {
     const {
         control,
         handleSubmit,
+        trigger,
         setValue,
         formState: { errors, isValid },
-    } = useForm({ mode: "all", shouldUnregister: false });
+    } = useForm({
+        mode: "onChange",
+        shouldUnregister: false,
+        defaultValues: {
+            email: ""
+        }
+    });
 
     const handlePress = (data: any) => {
-        // Handle reset password logic here
+        console.log("Reset password requested for:", data.email);
+        // Implement password reset logic here
     };
 
-    // Hover-like animation for the button
-    const buttonScale = useSharedValue(1);
-    const buttonAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: buttonScale.value }],
-    }));
-
-    const onButtonHover = () => {
-        buttonScale.value = withSequence(
-            withTiming(1.1, { duration: 200 }),
-            withTiming(1, { duration: 200 })
-        );
+    const handlePress1 = () => {
+        router.replace('/(auth)/LoginScreen')
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white px-5">
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {/* Back Button */}
+        <View style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+            <View style={styles.halfView}>
                 <Animated.View
-                    entering={SlideInLeft.duration(600)}
-                    className="mt-2 ml-5"
-                >
-                    <TouchableOpacity
-                        onPress={() => {
-                            router.replace("./LoginScreen");
-                        }}
-                    >
-                        <Icon name="leftarrow" size={24} color="black" />
-                    </TouchableOpacity>
-                </Animated.View>
-
-                {/* Centered Content */}
+                    style={styles.firstHalf}
+                    entering={BounceInLeft.duration(1000)}
+                />
                 <Animated.View
-                    className="flex-1 justify-center items-center mx-5 mb-24"
-                    entering={RotateInUpRight.duration(1000)}
-                >
-                    {/* Form Box */}
+                    style={styles.secondHalf}
+                    entering={BounceInRight.duration(1200).delay(400)}
+                />
+            </View>
+            <KeyboardAwareScrollView
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={styles.scrollContainer}
+            >
+                <View style={styles.card}>
+                    <Animated.View entering={BounceInLeft.duration(1400).delay(600)}>
+                        <Text style={styles.title}>Forgot Password</Text>
+                        <Text style={styles.subtitle}>
+                            Enter your email to reset your password
+                        </Text>
+                    </Animated.View>
                     <Animated.View
-                        className="shadow-lg border border-gray-300 rounded-lg p-5 bg-white w-full max-w-md"
-                        entering={FadeIn.duration(800).delay(200)}
+                        style={{ width: '100%' }}
+                        entering={BounceInLeft.duration(1800).delay(1000)}
                     >
-                        {/* Title */}
+                        <Controller
+                            control={control}
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: JSON.stringify([{ valid: false, title: "Email is Required" }]),
+                                },
+                                pattern: {
+                                    value: REGEX.EMAIL,
+                                    message: JSON.stringify([{ valid: false, title: "Please Enter a valid email" }]),
+                                },
+                            }}
+                            render={({ field: { onChange, value } }) => (
+                                <TextField
+                                    label="Email"
+                                    value={value}
+                                    rightIcon="close"
+                                    leftIcon="mail"
+                                    onChangeText={onChange}
+                                    onPressRightIcon={() => {
+                                        setValue("email", "");
+                                        trigger("email");
+                                    }}
+                                    placeholder="Enter your email"
+                                    placeholderTextColor="#9E9E9E"
+                                    editable={true}
+                                    returnKeyType="done"
+                                    errorMessage={errors.email?.message}
+                                    onPressLeftIcon={() => { }}
+                                />
+                            )}
+                            name="email"
+                        />
+                    </Animated.View>
+                    <View style={{
+                        flexDirection: 'row', width: '100%',
+                        justifyContent: 'space-between'
+                    }} >
                         <Animated.View
-                            entering={SlideInRight.duration(800).delay(400)}
-                            className="items-center mb-5"
-                        >
-                            <Text className="text-2xl font-bold text-black">Forgot Password</Text>
-                            <Text className="mt-3 text-base text-center text-gray-500 mx-5">
-                                Enter your email account to reset your password
-                            </Text>
-                        </Animated.View>
-
-                        {/* Email Input */}
-                        <Animated.View
-                            entering={SlideInLeft.duration(900).delay(600)}
-                            className="mb-0"
-                        >
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: {
-                                        value: true,
-                                        message: JSON.stringify([{ valid: false, title: "Email is Required" }]),
-                                    },
-                                    pattern: {
-                                        value: REGEX.EMAIL,
-                                        message: JSON.stringify([{ valid: false, title: "Please Enter a valid email" }]),
-                                    },
-                                }}
-                                name="email"
-                                render={({ field: { onChange, value } }) => (
-                                    <TextField
-                                        label="Email"
-                                        value={value}
-                                        rightIcon="close"
-                                        onChangeText={onChange}
-                                        onPressRightIcon={() => setValue("email", "")}
-                                        placeholder="Enter your email"
-                                        placeholderTextColor="#9E9E9E"
-                                        editable={true}
-                                        returnKeyType="next"
-                                        errorMessage={errors.email?.message}
-                                        mainClassName=""
-                                        onPressLeftIcon={function (): void {
-                                            throw new Error("Function not implemented.");
-                                        }}
-                                        textInputStyle={undefined}
-                                        mainContainerStyle=""
-                                        inputView=""
-                                    />
-                                )}
-                            />
-                        </Animated.View>
-
-                        {/* Reset Password Button */}
-                        <Animated.View
-                            entering={SlideInRight.duration(900).delay(800)}
-
-                        >
+                            style={{ width: '40%' }}
+                            entering={BounceInRight.duration(2400).delay(1600)}>
                             <CustomButton
                                 title="Reset Password"
-                                onPress={() => {
-                                    handleSubmit(handlePress)();
-                                    onButtonHover(); // Trigger hover effect
-                                }}
                                 disabled={!isValid}
+                                onPress={handleSubmit(handlePress)}
                             />
                         </Animated.View>
-                    </Animated.View>
-                </Animated.View>
-            </ScrollView>
-        </SafeAreaView>
+                        <Animated.View
+                            style={{ width: '40%' }}
+                            entering={BounceInLeft.duration(2600).delay(1600)}>
+
+                            <CustomButton
+                                title="Go back"
+                                onPress={handlePress1}
+                            />
+                        </Animated.View>
+                    </View>
+                </View>
+            </KeyboardAwareScrollView>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    halfView: {
+        ...StyleSheet.absoluteFillObject,
+        flexDirection: "row",
+    },
+    firstHalf: {
+        flex: 1,
+        backgroundColor: "white",
+    },
+    secondHalf: {
+        flex: 1,
+        backgroundColor: "#1e40af",
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    card: {
+        width: Dimensions.get("window").width - 40,
+        backgroundColor: "white",
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+        padding: 20,
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 22,
+        fontFamily: Font.LATO_BOLD,
+        textAlign: 'center',
+    },
+    subtitle: {
+        marginVertical: 10,
+        color: "grey",
+        textAlign: 'center',
+        fontSize: 16,
+    },
+});
 
 export default ForgotPasswordScreen;

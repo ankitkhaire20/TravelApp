@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 interface CustomButtonProps {
     title: string,
     onPress: () => void,
-    disabled: boolean,
+    disabled?: boolean,
     textinPutStyle?: string,
 }
 
@@ -15,7 +15,7 @@ const CustomButton: React.FC<CustomButtonProps> = (props) => {
         <View>
             <TouchableOpacity onPress={onPress} disabled={disabled}
                 className={`rounded-[10px] ${disabled ? "bg-gray-400" : "bg-[#24BAEC]"}`}>
-                <Text className={`text-white p-4 text-[16px] text-center ${textinPutStyle} `}>
+                <Text className={`text-white p-3 text-[16px] text-center ${textinPutStyle} `}>
                     {title}
                 </Text>
             </TouchableOpacity>

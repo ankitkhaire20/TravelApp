@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FlatList, Text, View, SafeAreaView, Dimensions, StatusBar, TouchableOpacity, ScrollView, Image } from "react-native";
+import { FlatList, Text, View, SafeAreaView, Dimensions, StatusBar, TouchableOpacity, ScrollView, Image, Platform } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import CustomButton from "../components/CustomButton";
 import { Color } from "@/src/utills/globals";
@@ -74,7 +74,7 @@ const IntroScreen: React.FC = () => {
     };
 
     const renderItem = ({ item, index }: { item: any; index: number }) => {
-        const imageWidth = width - 40;
+        const imageWidth = width;
         const imageHeight = height * 0.5;
 
         return (
@@ -90,8 +90,9 @@ const IntroScreen: React.FC = () => {
                     style={{
                         width: imageWidth,
                         height: imageHeight,
-                        resizeMode: "cover",
-                        borderRadius: 10,
+                        resizeMode: "contain",
+                        borderRadius: 20,
+                        marginTop: Platform.OS === 'android' ? 60 : 0
                     }}
                 />
                 <Animated.View className="items-center mt-[40px] mx-[33px]">
